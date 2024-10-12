@@ -10,31 +10,22 @@ const scrollEffect = () => {
     });
 };
 
-window.addEventListener('scroll', scrollEffect);
-scrollEffect();
-
-window.addEventListener('scroll', () => {
-    const scrollPosition = window.scrollY;
-    document.body.style.backgroundPositionY = `${scrollPosition * -0.15}px`;
-});
-
 const header = document.querySelector('header');
 const hero = document.getElementById('hero');
+const menuToggle = document.getElementById('menu-toggle');
+const navbar = document.getElementById('navbar');
 
-window.addEventListener('scroll', () => {
-    const heroBottom = hero.getBoundingClientRect().bottom;
+const toggleMenuVisibility = () => {
+    const navLinksVisible = navbar.classList.contains('active');
+    menuToggle.style.display = navLinksVisible ? 'none' : 'block';
+};
 
-    if (heroBottom <= 0) {
-        header.classList.add('sticky');
-    } else {
-        header.classList.remove('sticky');
-    }
-});
+window.addEventListener('scroll', scrollEffect);
+scrollEffect();
 
 document.querySelectorAll('nav a').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
-
         const targetId = this.getAttribute('href').substring(1);
         const targetElement = document.getElementById(targetId);
 
@@ -79,3 +70,20 @@ const type = () => {
 };
 
 window.addEventListener('load', type);
+
+menuToggle.addEventListener('click', () => {
+    navbar.classList.toggle('active');
+    toggleMenuVisibility();
+});
+
+window.addEventListener('scroll', () => {
+    const heroBottom = hero.getBoundingClientRect().bottom;
+    if (heroBottom <= 0) {
+        header.classList.add('sticky');
+    } else {
+        header.classList.remove('sticky');
+    }
+});
+
+// Initial visibility check for menu toggle
+toggleMenuVisibility();
