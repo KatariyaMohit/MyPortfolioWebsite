@@ -1,59 +1,34 @@
-const sections = document.querySelectorAll('section');
+ const sections = document.querySelectorAll('section');
+const header = document.querySelector('header');
+const hero = document.getElementById('hero');
+const heroText = document.querySelector('#hero');
+const typewriterText = document.getElementById('typewriter');
+const menuToggle = document.getElementById('menu-toggle');
+const navbar = document.getElementById('navbar');
+const text = typewriterText.getAttribute('data-text');
+let index = 0;
+
 const scrollEffect = () => {
     sections.forEach((section) => {
         const rect = section.getBoundingClientRect();
-        if (rect.top < window.innerHeight * 0.6) {
-            section.classList.add('active');
-        } else {
-            section.classList.remove('active');
-        }
+        section.classList.toggle('active', rect.top < window.innerHeight * 0.6);
     });
+    document.body.style.backgroundPositionY = `${window.scrollY * -0.1}px`;
+  
+
+    const heroBottom = hero.getBoundingClientRect().bottom;
+    header.classList.toggle('sticky', heroBottom <= 0);
 };
 
-const header = document.querySelector('header');
-const hero = document.getElementById('hero');
-const menuToggle = document.getElementById('menu-toggle');
-const navbar = document.getElementById('navbar');
-
-const toggleMenuVisibility = () => {
-    const navLinksVisible = navbar.classList.contains('active');
-    menuToggle.style.display = navLinksVisible ? 'none' : 'block';
+const smoothScroll = (e) => {
+    e.preventDefault();
+    const targetId = e.currentTarget.getAttribute('href').substring(1);
+    const targetElement = document.getElementById(targetId);
+    window.scrollTo({
+        top: targetElement.offsetTop - header.offsetHeight,
+        behavior: 'smooth'
+    });
 };
-
-window.addEventListener('scroll', scrollEffect);
-scrollEffect();
-
-document.querySelectorAll('nav a').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href').substring(1);
-        const targetElement = document.getElementById(targetId);
-
-        window.scrollTo({
-            top: targetElement.offsetTop - header.offsetHeight,
-            behavior: 'smooth'
-        });
-    });
-});
-
-const heroText = document.querySelector('#hero');
-
-window.addEventListener('scroll', () => {
-    const scrollPosition = window.scrollY;
-    heroText.style.transform = `translateY(${scrollPosition * 0.2}px)`;
-});
-
-window.addEventListener('load', () => {
-    const titles = document.querySelectorAll('h1, h2');
-    titles.forEach((title, index) => {
-        title.style.animationDelay = `${index * 0.2}s`;
-        title.classList.add('wave');
-    });
-});
-
-const typewriterText = document.getElementById('typewriter');
-const text = typewriterText.getAttribute('data-text');
-let index = 0;
 
 const type = () => {
     if (index < text.length) {
@@ -69,19 +44,19 @@ const type = () => {
     }
 };
 
-window.addEventListener('load', type);
+const animateTitles = () => {
+    document.querySelectorAll('h1, h2').forEach((title, index) => {
+        title.style.animationDelay = `${index * 0.2}s`;
+        title.classList.add('wave');
+    });
+};
 
-menuToggle.addEventListener('click', () => {
-    navbar.classList.toggle('active');
-    toggleMenuVisibility();
+window.addEventListener('scroll', scrollEffect);
+window.addEventListener('load', () => {
+    scrollEffect();
+    animateTitles();
+    type();
 });
 
-window.addEventListener('scroll', () => {
-    const heroBottom = hero.getBoundingClientRect().bottom;
-    if (heroBottom <= 0) {
-        header.classList.add('sticky');
-    } else {
-        header.classList.remove('sticky');
-    }
-});
-toggleMenuVisibility();
+document.querySelectorAll('nav a').forEach(anchor => anchor.addEventListener('click', smoothScroll));
+menuToggle.addEventListener('click', () => navbar.classList.toggle('active'));
