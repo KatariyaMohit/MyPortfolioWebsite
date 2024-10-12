@@ -20,7 +20,8 @@ body {
 
 header {
     background: linear-gradient(135deg, #000000da 20%, #ffd900c8 100%);
-    padding: 0.5em;
+    padding-top: 20px;
+    padding-bottom: 40px;
     text-align: center;
     width: 100%;
     z-index: 1000;
@@ -58,7 +59,7 @@ header.sticky {
 }
 
 #hero h3 {
-    font-size: 2.3em;
+    font-size: 135%;
 }
 
 h1,h2 {
@@ -304,4 +305,15 @@ section:hover {
     transform: translateY(-15px);
 }
 
+#footer{
+    text-align: center;
+    margin-bottom: 60px;
+    text-decoration: underline;
+    font-weight: bold;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
 
+.projectname{
+    font-size:130%;
+  
+}
