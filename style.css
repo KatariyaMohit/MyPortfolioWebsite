@@ -311,9 +311,20 @@ section:hover {
     text-decoration: underline;
     font-weight: bold;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
+    animation: wave 0.8s infinite;
+}
+@keyframes wave {
+    0%, 100% {
+        transform: translateY(0); 
+    }
+    50% {
+        transform: translateY(-10px); 
+    }
 }
 
 .projectname{
     font-size:130%;
+    text-decoration: underline;
+    text-align: center;
   
 }
