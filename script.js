@@ -84,6 +84,4 @@ window.addEventListener('scroll', () => {
         header.classList.remove('sticky');
     }
 });
-
-// Initial visibility check for menu toggle
 toggleMenuVisibility();
